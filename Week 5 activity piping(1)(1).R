@@ -25,16 +25,25 @@ download.file(url = "https://projects.fivethirtyeight.com/soccer-api/internation
 WorldCup<- read.csv("WorldCup.csv")
 
 #TASK: take a look at the World Cup data. 
-View(WorldCup)
+# View the first few rows of the dataset
+head(WorldCup)
+
 #TASK: Install and call the dplyr package. 
-install.packages("dplyr")
+# Install the dplyr package if not already installed
+if (!require(dplyr)) install.packages("dplyr")
+
+# Load the dplyr package
 library(dplyr)
+
+
 #Let's make a random sample of our data and save it
 #Task: run the code below
 mysample<-sample_n(WorldCup, size=15, replace = FALSE, weight = NULL, .env = NULL)
+mysample <- sample_n(WorldCup, size=15, replace = FALSE)
 
+write.csv(mysample, "mysample.csv")
 #TASK: Save the new sample as a csv file
-write.csv(mysample, "mysample.csv", row.names = FALSE)
+write.csv(mysample, "mysample.csv")
 
 #Now let's have some fun with *piping*
 
@@ -58,23 +67,4 @@ mysample2<-rename(mysample2, Index1 = spi1, Index2 = spi2)
 mysample3<-select(mysample2, Index1, Index2, team1, team2 )
 mysample4<-summary(mysample3)
 print(mysample4)
-
-library(dplyr)
-
-mysample4 <- mysample %>%
-  arrange(date) %>%
-  filter(spi1 < 80) %>%
-  rename(Index1 = spi1, Index2 = spi2) %>%
-  select(Index1, Index2, team1, team2) %>%
-  summary()
-
-print(mysample4)
-
-
-
-
-
-
-#my <- mysample %>%
-  #mean(sample$Score1)
 
